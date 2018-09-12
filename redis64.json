@@ -29,7 +29,10 @@
   ],
   "provisioners": [
     {
-      "inline": ["echo 'packer' | sudo -S apt-get update ; sudo apt-get install -y redis-server"],
+      "inline": [
+        "echo 'packer' | sudo -S apt-get update"
+        "sudo apt-get install -y redis-server"
+      ],
       "type": "shell"
     }
   ],
