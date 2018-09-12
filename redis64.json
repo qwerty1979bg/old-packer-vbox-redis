@@ -1,0 +1,37 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<esc><wait>auto priority=critical url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"
+      ],
+      "http_directory": "http",
+      "type": "virtualbox-iso",
+      "guest_os_type": "Debian",
+      "iso_url": "https://cdimage.debian.org/debian-cd/current/i386/iso-cd/debian-9.5.0-i386-netinst.iso",
+      "iso_checksum": "b4df083cc2210a1d8c678ed911340574",
+      "iso_checksum_type": "md5",
+      "headless": "true",
+      "ssh_username": "packer",
+      "ssh_password": "packer",
+      "ssh_timeout": "30m",
+      "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vrdeaddress",
+          "0.0.0.0"
+        ]
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "keep_input_artifact": true,
+        "output": "{{.BuildName}}.box"
+      }
+    ]
+  ]
+}
